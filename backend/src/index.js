@@ -1,16 +1,15 @@
+require('dotenv').config();
 const fastify = require('fastify')({ logger: { level: 'info', prettifier: require('pino-pretty') } });
 const port = 4501
 const host = '0.0.0.0'
-const apiKey = 'YTdlMjAxZDYyZGY4Yzk2OTkzNjc5NjU1YTRkMTY2NzQ3ODU1YzBhMA';
+const apiKey = process.env.SERVER_API_KEY;
 
 const apiKeyValidation = async (req, res) => {
   const authorization = req.headers['authorization'];
-
   if (!authorization || authorization !== `ZeroOneGroup ${apiKey}`) {
     res.code(404).send({ message: 'Route ' + req.method + ':' + req.url + ' not found', error: 'Not Found', statusCode:404 });
     return;
   }
-
 };
 
 fastify.addHook('preHandler', apiKeyValidation);
