@@ -1,0 +1,5 @@
+frontend/node_modules
+frondend/build
+frontend/.next
+frontend/.vercel
+backend/node_modules
