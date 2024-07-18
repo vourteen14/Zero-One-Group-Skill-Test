@@ -1,7 +1,7 @@
 require('dotenv').config();
 const fastify = require('fastify')({ logger: { level: 'info', prettifier: require('pino-pretty') } });
-const port = 4501
-const host = '0.0.0.0'
+const port = process.env.PORT;
+const host = process.env.HOST;
 const apiKey = process.env.SERVER_API_KEY;
 
 const apiKeyValidation = async (req, res) => {
