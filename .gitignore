@@ -5,3 +5,6 @@ frontend/.vercel
 frontend/.env
 backend/node_modules
 backend/.env
+terraform/.terraform
+terraform/.terraform.lock.hcl
+
