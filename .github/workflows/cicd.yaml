@@ -28,10 +28,10 @@ jobs:
       - name: Detect Changes
         id: changes
         run: |
-          echo "frontend=$(git diff --name-only | grep -E '^frontend/' || true)" >> $GITHUB_ENV
-          echo "backend=$(git diff --name-only | grep -E '^backend/' || true)" >> $GITHUB_ENV
-          echo ${{ env.frontend }}
-          echo ${{ env.backend }}
+          git diff --name-only > changed_files.txt
+          if grep -q '^frontend/' changed_files.txt; then echo "frontend=true" >> $GITHUB_ENV; fi
+          if grep -q '^backend/' changed_files.txt; then echo "backend=true" >> $GITHUB_ENV; fi
+
 
       - name: Build & Push Frontend Container
         if: ${{ env.frontend != '' }}
