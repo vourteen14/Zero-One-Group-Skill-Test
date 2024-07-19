@@ -30,6 +30,7 @@ jobs:
         run: |
           echo "frontend=$(git diff --name-only | grep -E '^frontend/' || true)" >> $GITHUB_ENV
           echo "backend=$(git diff --name-only | grep -E '^backend/' || true)" >> $GITHUB_ENV
+          echo ${{ env.frontend }}
 
       - name: Build & Push Frontend Container
         if: ${{ env.frontend != '' }}
