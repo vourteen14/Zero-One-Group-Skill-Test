@@ -86,6 +86,14 @@ body {
 }
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Segoe UI';
+}
+
+body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
