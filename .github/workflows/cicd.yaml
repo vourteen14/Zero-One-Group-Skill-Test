@@ -30,6 +30,7 @@ jobs:
       - name: Get All Changed
         run: |
           git diff --name-only origin/master > changed_files.txt
+          cat changed_files.txt
 
       - name: Set ENV Variable
         run: |
