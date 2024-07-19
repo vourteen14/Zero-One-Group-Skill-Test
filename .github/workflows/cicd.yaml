@@ -43,9 +43,9 @@ jobs:
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
-            docker stop node-backend || true
-            docker rm node-backend || true
-            docker run -d --name node-backend -p 8010:4502 ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
+            docker stop node-frontend || true
+            docker rm node-frontend || true
+            docker run -d --name node-frontend -p 8010:4502 ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
           EOF
 
       - name: Deploy Backend Container
