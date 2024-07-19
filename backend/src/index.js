@@ -12,11 +12,9 @@ const apiKeyValidation = async (req, res) => {
   }
 };
 
-fastify.addHook('preHandler', apiKeyValidation);
-
-fastify.get('/api/v1/hello_world/', (req, res) => {
+fastify.route({ method: 'GET', url: '/api/v1/hello_world/', preHandler: apiKeyValidation, handler: (req, res) => {
   return { message: 'Hello World!', statusCode:200 };
-});
+}});
 
 fastify.get('/api/v1/status/', (req, res) => {
   return { status: 'ok' };
