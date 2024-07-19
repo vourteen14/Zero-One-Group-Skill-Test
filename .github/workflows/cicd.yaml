@@ -30,11 +30,17 @@ jobs:
       - name: Detect Changes
         id: changes
         run: |
-          git diff --name-only > changed_files.txt
+          git diff --name-only origin/master > changed_files.txt
           if grep -q '^frontend/' changed_files.txt; then echo "frontend=true" >> $GITHUB_ENV; fi
           if grep -q '^backend/' changed_files.txt; then echo "backend=true" >> $GITHUB_ENV; fi
-          cat changed_files.txt
-          echo ${{ env }}
+
+      - name: Check if backend=true
+        run: |
+          if [ "$backend" = "true" ]; then
+            echo "backend is true!"
+          else
+            echo "backend is not true."
+          fi
 
       - name: Build & Push Frontend Container
         if: ${{ env.frontend == 'true' }}
