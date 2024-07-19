@@ -25,18 +25,9 @@ resource "kubernetes_deployment" "frontend_deployment" {
         container {
           name  = "node-frontend"
           image = "vourteen14/node-frontend:latest"
-          ports {
-            container_port = 4502
-          }
-
-          env {
-            name = "BACKEND_AUTH_TOKEN"
-            value_from {
-              secret_key_ref {
-                name = kubernetes_secret.frontend_secret.metadata[0].name
-                key  = "BACKEND_AUTH_TOKEN"
-              }
-            }
+          
+          port {
+            container_port = 4501
           }
 
           env {
@@ -44,14 +35,24 @@ resource "kubernetes_deployment" "frontend_deployment" {
             value_from {
               secret_key_ref {
                 name = kubernetes_secret.frontend_secret.metadata[0].name
-                key  = "BACKEND_API_URL"
+                key  = "backend_api_url"
+              }
+            }
+          }
+
+          env {
+            name = "BACKEND_AUTH_TOKEN"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.frontend_secret.metadata[0].name
+                key  = "server_auth_token"
               }
             }
           }
         }
 
         volume {
-          name = "frontend_secret"
+          name = "frontend-secret"
           secret {
             secret_name = kubernetes_secret.frontend_secret.metadata[0].name
           }

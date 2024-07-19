@@ -25,7 +25,8 @@ resource "kubernetes_deployment" "backend_deployment" {
         container {
           name  = "node-backend"
           image = "vourteen14/node-backend:latest"
-          ports {
+          
+          port {
             container_port = 4501
           }
 
@@ -34,14 +35,14 @@ resource "kubernetes_deployment" "backend_deployment" {
             value_from {
               secret_key_ref {
                 name = kubernetes_secret.backend_secret.metadata[0].name
-                key  = "SERVER_API_KEY"
+                key  = "server_api_key"
               }
             }
           }
         }
 
         volume {
-          name = "backend_secret"
+          name = "backend-secret"
           secret {
             secret_name = kubernetes_secret.backend_secret.metadata[0].name
           }

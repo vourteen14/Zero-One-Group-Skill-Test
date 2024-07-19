@@ -1,9 +1,9 @@
 resource "kubernetes_secret" "backend_secret" {
   metadata {
-    name = "backend_secret"
+    name = "backend-secret"
   }
   
   data = {
-    SERVER_API_KEY = base64encode(var.backend_api_key)
+    server_api_key = base64encode(var.backend_api_key)
   }
 }

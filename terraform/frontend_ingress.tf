@@ -10,16 +10,9 @@ resource "kubernetes_ingress" "frontend_ingress" {
       host = var.frontend_domain
       http {
         path {
-          path = "/"
-          path_type = "Prefix"
-
           backend {
-            service {
-              name = kubernetes_service.frontend_service.metadata[0].name
-              port {
-                number = 4502
-              }
-            }
+            service_name = kubernetes_service.frontend_service.metadata[0].name
+            service_port = 4502
           }
         }
       }
