@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0-debug-5",
+  "version": "1.0.0-debug-6",
   "description": "Simple hello world backend",
   "main": "index.js",
   "scripts": {
