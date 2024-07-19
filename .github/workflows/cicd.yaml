@@ -27,12 +27,18 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Detect Changes
-        id: changes
+      - name: Get All Changed
         run: |
           git diff --name-only origin/master > changed_files.txt
-          if grep -q '^frontend/' changed_files.txt; then echo "frontend=true" >> $GITHUB_ENV; fi
-          if grep -q '^backend/' changed_files.txt; then echo "backend=true" >> $GITHUB_ENV; fi
+
+      - name: Set ENV Variable
+        run: |
+          if grep -q '^frontend/' changed_files.txt; then
+            echo "frontend=true" >> $GITHUB_ENV
+          fi
+          if grep -q '^backend/' changed_files.txt; then
+            echo "backend=true" >> $GITHUB_ENV
+          fi
 
       - name: Check if backend=true
         run: |
