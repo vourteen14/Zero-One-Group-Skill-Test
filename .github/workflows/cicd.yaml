@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - "frontend/**"
-      - "backend/**"
 
 jobs:
   cicd:
@@ -15,8 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 2 
 
       - name: DockerHub Login
         uses: docker/login-action@v2
@@ -27,47 +22,19 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Fetch all branches
-        run: |
-          git fetch --all
-
-      - name: Get All Changed
-        run: |
-          git diff --name-only
-
-      - name: Set ENV Variable
-        run: |
-          if grep -q '^frontend/' changed_files.txt; then
-            echo "frontend=true" >> $GITHUB_ENV
-          fi
-          if grep -q '^backend/' changed_files.txt; then
-            echo "backend=true" >> $GITHUB_ENV
-          fi
-
-      - name: Check if backend=true
-        run: |
-          if [ "$backend" = "true" ]; then
-            echo "backend is true!"
-          else
-            echo "backend is not true."
-          fi
-
       - name: Build & Push Frontend Container
-        if: ${{ env.frontend == 'true' }}
         run: |
           cd frontend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
 
-      - name: Build Backend Container
-        if: ${{ env.backend == 'true' }}
+      - name: Build & Push Backend Container
         run: |
           cd backend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/node-backend:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/node-backend:latest
 
       - name: Deploy Frontend Container
-        if: ${{ env.frontend == 'true' }}
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
@@ -79,7 +46,6 @@ jobs:
           EOF
 
       - name: Deploy Backend Container
-        if: ${{ env.backend == 'true' }}
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
