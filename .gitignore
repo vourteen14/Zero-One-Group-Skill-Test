@@ -5,6 +5,7 @@ frontend/.vercel
 frontend/.env
 backend/node_modules
 backend/.env
-terraform/.terraform
-terraform/.terraform.lock.hcl
-
+terraform-k8s/.terraform
+terraform-k8s/.terraform.lock.hcl
+terraform-swarm/.terraform
+terraform-swarm/.terraform.lock.hcl
