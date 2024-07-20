@@ -38,6 +38,10 @@ jobs:
             echo "RELEASE_STATUS=false" >> $GITHUB_ENV
           fi
 
+      - name: Check Release
+        run: |
+          echo "Release: ${{ env.RELEASE_EXISTS }}"
+
       - name: Build & Push Frontend Container (Release)
         if: ${{ env.RELEASE_EXISTS == 'true' }}
         run: |
