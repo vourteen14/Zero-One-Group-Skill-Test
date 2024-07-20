@@ -1,6 +1,8 @@
 name: CI/CD Simple Hello World App
 
 on:
+  release:
+    types: [published]
   push:
     branches:
       - master
