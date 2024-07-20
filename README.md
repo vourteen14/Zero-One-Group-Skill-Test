@@ -46,7 +46,7 @@ You need to set this on Settings (on this repository) -> Secrets and variable ->
 
 ## Infrastructure Diagram
 
-![](assets/20240720_215910_image.png)
+![infra](assets/20240720_215910_image.png)
 
 ## Infrastructure Explanation
 
