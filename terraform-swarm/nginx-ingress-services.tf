@@ -5,10 +5,9 @@ resource "docker_service" "nginx_ingress" {
     
     container_spec {
       image = "nginx:latest"
-      
       mounts {
         target = "/etc/nginx/conf.d"
-        source = "${path.module}/nginx_config"
+        source = "${path.cwd}/config"
         type   = "bind"
         read_only = true
       }

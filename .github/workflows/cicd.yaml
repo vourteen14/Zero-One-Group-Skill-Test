@@ -26,36 +26,66 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build & Push Frontend Container
+      - name: Set release tag
+        id: set_release_tag
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+            echo "RELEASE_STATUS=true" >> $GITHUB_ENV
+          else
+            echo "RELEASE_STATUS=false" >> $GITHUB_ENV
+          fi
+
+      - name: Build & Push Frontend Container (Release)
+        if: ${{ env.RELEASE_EXISTS == 'true' }}
+        run: |
+          cd frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/node-frontend:${{ env.RELEASE_TAG }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/node-frontend:${{ env.RELEASE_TAG }}
+
+      - name: Build & Push Frontend Container (Latest)
         run: |
           cd frontend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
 
-      - name: Build & Push Backend Container
+      - name: Build & Push Backend Container (Release)
+        if: ${{ env.RELEASE_EXISTS == 'true' }}
+        run: |
+          cd backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/node-backend:${{ env.RELEASE_TAG }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/node-backend:${{ env.RELEASE_TAG }}
+
+      - name: Build & Push Backend Container (Latest)
         run: |
           cd backend
           docker build -t ${{ secrets.DOCKER_USERNAME }}/node-backend:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/node-backend:latest
 
-      - name: Deploy Frontend Container
+      - name: Deploy Backend & Frontend Container
+        if: ${{ env.RELEASE_EXISTS == 'true' }}
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
-            docker stop node-frontend || true
-            docker rm node-frontend || true
-            docker run -d --name node-frontend -p 8010:4502 -e BACKEND_API_URL=${{ secrets.SERVER_API_HOST }} -e BACKEND_AUTH_TOKEN=${{ secrets.SERVER_API_KEY }} ${{ secrets.DOCKER_USERNAME }}/node-frontend:latest
-          EOF
+            
+            export TF_VAR_docker_username=${{ secrets.DOCKER_USERNAME }}
+            export TF_VAR_backend_service_name=${{ secrets.BACKEND_SERVICE_NAME }}
+            export TF_VAR_backend_domain=${{ secrets.BACKEND_DOMAIN }}
+            export TF_VAR_backend_url=${{ secrets.BACKEND_URL }}
+            export TF_VAR_backend_api_key=${{ secrets.SERVER_API_KEY }}
+            export TF_VAR_backend_image_tag=${{ env.RELEASE_TAG }}
+            export TF_VAR_frontend_domain= ${{ secrets.FRONTEND_DOMAIN }}
+            export TF_VAR_frontend_service_name=${{ secrets.FRONTEND_SERVICE_NAME }}
+            export TF_VAR_frontend_image_tag=${{ env.RELEASE_TAG }}
+            export TF_VAR_frontend_api_token=${{ secrets.SERVER_API_KEY }}
 
-      - name: Deploy Backend Container
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            docker pull ${{ secrets.DOCKER_USERNAME }}/node-backend:latest
-            docker stop node-backend || true
-            docker rm node-backend || true
-            docker run -d --name node-backend -p 8020:4501 -e SERVER_API_KEY=${{ secrets.SERVER_API_KEY }} ${{ secrets.DOCKER_USERNAME }}/node-backend:latest
+            git clone git@github.com:vourteen14/Zero-One-Group-Skill-Test.git
+            cd Zero-One-Group-Skill-Test
+
+            git checkout ${{ env.RELEASE_TAG }}
+
+            cd terraform-swarm
+            terraform plan
+            terraform apply -auto-approve
           EOF

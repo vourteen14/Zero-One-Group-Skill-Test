@@ -1,5 +1,5 @@
 data "template_file" "nginx_config" {
-  template = file("${path.module}/config/nginx_template.conf")
+  template = file("${path.module}/config/nginx_template.conf.tpl")
 
   vars = {
     backend_domain         = var.backend_domain
