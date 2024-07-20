@@ -19,6 +19,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Debug GITHUB_REF
+        run: |
+          echo "GITHUB_REF=${GITHUB_REF}"
+          echo "GITHUB_REF#refs/tags/: ${GITHUB_REF#refs/tags/}"
+          echo "GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}"
+          echo "GITHUB_SHA=${GITHUB_SHA}"
+          echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
+          echo "RELEASE_TAG_NAME=${{ github.event.release.tag_name }}"
+
       - name: Set release tag
         id: set_release_tag
         run: |
