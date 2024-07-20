@@ -8,11 +8,18 @@ The build and push container image process is using github action and after succ
 
 1. Ubuntu 22.04
    terraform and docker installed
+   
    docker swarm mode have initiated on this node
+   
    required open port 80,443, and 22
-   has regular user with access to docker socket and generate ssh key for that user (for remote access)
+   
+   has regular user with access to docker socket
+
+   generate ssh key for that user (for remote access), add public key to authorized keys on these user and put the private key as Variable
+   
    the server have a public IP
-2. DockerHub Account
+   
+3. DockerHub Account
    docker token with access read and write
 
 ## Environment Variable
@@ -25,13 +32,16 @@ You need to set this on Settings (on this repository) -> Secrets and variable ->
 | TF_VAR_docker_username       | docker username                                 | user123                       |
 | TF_VAR_backend_service_name  | backend service name                            | node-backend                  |
 | TF_VAR_backend_domain        | domain for backend                              | backend.domain.com            |
-| TF_VAR_backend_url           | backend url for fronted                         | http://backend.teubisa.online |
+| TF_VAR_backend_url           | backend url for fronted                         | http://backend.domain.com     |
 | TF_VAR_backend_api_key       | backend api key                                 | AAABBBccc                     |
-| TF_VAR_backend_image_tag     | backend container tag                           | latest                        |
 | TF_VAR_frontend_domain       | domain for frontend                             | frontend.domain.com           |
 | TF_VAR_frontend_service_name | frontend service name                           | node-frontend                 |
-| TF_VAR_frontend_image_tag    | frontend container tag                          | latest                        |
 | TF_VAR_frontend_api_token    | backend api key, must same with backend api key | AAABBBccc                     |
+| SSH_PRIVATE_KEY              | ssh private key                                 | -----BEGIN OPENSSH            |
+| SSH_USER                     | ssh user that have directly access docker sock  | user                          |
+| SSH_HOST                     | ssh server public IP                            | 10.10.10.1                    |
+| DOCKER_USERNAME              | docker username                                 | user                          | 
+| DOCKER_TOKEN                 | docker personal access token with RW access     | JJJ34wudcds                   | 
 
 ## Sub Repository
 
