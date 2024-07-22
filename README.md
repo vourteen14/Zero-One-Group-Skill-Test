@@ -31,14 +31,14 @@ You need to set this on Settings (on this repository) -> Secrets and variable ->
 
 | Variable Name                | Description                                     | Value                         |
 | ------------------------------ | ------------------------------------------------- | ------------------------------- |
-| TF_VAR_docker_username       | docker username                                 | user123                       |
-| TF_VAR_backend_service_name  | backend service name                            | node-backend                  |
-| TF_VAR_backend_domain        | domain for backend                              | backend.domain.com            |
-| TF_VAR_backend_url           | backend url for fronted                         | http://backend.domain.com     |
-| TF_VAR_backend_api_key       | backend api key                                 | AAABBBccc                     |
-| TF_VAR_frontend_domain       | domain for frontend                             | frontend.domain.com           |
-| TF_VAR_frontend_service_name | frontend service name                           | node-frontend                 |
-| TF_VAR_frontend_api_token    | backend api key, must same with backend api key | AAABBBccc                     |
+| DOCKER_USERNAME       | docker username                                 | user123                       |
+| BACKEND_SERVICE_NAME   | backend service name                            | node-backend                  |
+| BACKEND_DOMAIN        | domain for backend                              | backend.domain.com            |
+| BACKEND_URL           | backend url for fronted                         | http://backend.domain.com     |
+| SERVER_API_KEY       | backend api key                                 | AAABBBccc                     |
+| FRONTEND_DOMAIN      | domain for frontend                             | frontend.domain.com           |
+| FRONTEND_SERVICE_NAME | frontend service name                           | node-frontend                 |
+| SERVER_API_KEY    | backend api key, must same with backend api key | AAABBBccc                     |
 | SSH_PRIVATE_KEY              | ssh private key                                 | -----BEGIN OPENSSH            |
 | SSH_USER                     | ssh user that have directly access docker sock  | user                          |
 | SSH_HOST                     | ssh server public IP                            | 10.10.10.1                    |
