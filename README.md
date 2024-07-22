@@ -35,10 +35,9 @@ You need to set this on Settings (on this repository) -> Secrets and variable ->
 | BACKEND_SERVICE_NAME   | backend service name                            | node-backend                  |
 | BACKEND_DOMAIN        | domain for backend                              | backend.domain.com            |
 | BACKEND_URL           | backend url for fronted                         | http://backend.domain.com     |
-| SERVER_API_KEY       | backend api key                                 | AAABBBccc                     |
+| SERVER_API_KEY       | backend api key, must same with backend api key, this used for both backend and frontend                         | AAABBBccc                     |
 | FRONTEND_DOMAIN      | domain for frontend                             | frontend.domain.com           |
 | FRONTEND_SERVICE_NAME | frontend service name                           | node-frontend                 |
-| SERVER_API_KEY    | backend api key, must same with backend api key | AAABBBccc                     |
 | SSH_PRIVATE_KEY              | ssh private key                                 | -----BEGIN OPENSSH            |
 | SSH_USER                     | ssh user that have directly access docker sock  | user                          |
 | SSH_HOST                     | ssh server public IP                            | 10.10.10.1                    |
