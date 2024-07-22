@@ -19,8 +19,10 @@ The build and push container image process is using github action and after succ
    
    the server have a public IP
    
-3. DockerHub Account
+2. DockerHub Account
    docker token with access read and write
+
+3. A domain for point to ingress reverse proxy
 
 ## Environment Variable
 
