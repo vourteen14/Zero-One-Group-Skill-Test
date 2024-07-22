@@ -22,7 +22,7 @@ The build and push container image process is using github action and after succ
 2. DockerHub Account
    docker token with access read and write
 
-3. A domain for point to ingress reverse proxy
+3. A domain ingress reverse proxy
 
 ## Environment Variable
 
