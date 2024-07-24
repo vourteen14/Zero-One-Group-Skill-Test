@@ -13,9 +13,9 @@ The build and push container image process is using github action and after succ
    
    required open port 80,443, and 22
    
-   has regular user with access to docker socket
+   has a regular user with access to docker socket
 
-   generate ssh key for that user (for remote access), add public key to authorized keys on these user and put the private key as Variable
+   generate ssh key for that user (for remote access), add public key to authorized keys on the user and put the private key as Variable
    
    the server have a public IP
    
